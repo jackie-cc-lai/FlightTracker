@@ -1,10 +1,16 @@
-import React from 'react';
+import React from "react";
+import logo from "../logo.svg";
+import "../App.css";
+import Page from "../components/Page";
+import navlinks from "../constants/PageConstants";
 
-interface Props {
-    prop1: any;
-}
-function Flights({prop1}: Props) {
-    return <div>{prop1}</div>
+function Flights() {
+  const activePage = navlinks.find((link) => link.id === "FLIGHTS");
+  return (
+    <Page active={activePage?.id}>
+      <div>Flights</div>
+    </Page>
+  );
 }
 
 export default Flights;
