@@ -4,6 +4,7 @@
 /client/node_modules
 /client/.pnp
 /client.pnp.js
+/.venv/
 
 # testing
 /client/coverage
@@ -23,8 +24,21 @@
 /client/yarn-debug.log*
 /client/yarn-error.log*
 
+# service
 /service/.env
 /service/.env.local
 /service/.env.development.local
 /service/.env.test.local
 /service/.env.production.local
+/service/*.pyc
+/service/__pycache__/
+
+/service/instance/
+
+/service/.pytest_cache/
+/service/.coverage
+/service/htmlcov/
+
+/service/dist/
+/service/build/
+/service/*.egg-info/
