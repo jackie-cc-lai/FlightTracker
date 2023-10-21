@@ -1,12 +1,28 @@
 import React, { useState } from "react";
 import Page from "../components/Page";
 import navlinks from "../constants/PageConstants";
+import mockSearchResults from "../mock/mockSearch";
+import Table from "../components/Table";
+
+const headings = [
+  "Flight Number",
+  "Departure Date",
+  "Estimated Departure Time",
+  "Actual Departure Time",
+  "Arrival Date",
+  "Estimated Arrival Date",
+  "Actual Arrival Date",
+  "Delays",
+  "Plane Type",
+];
 
 function SearchPage() {
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState<{
+    headings: string[];
+    data: any[];
+  }>();
   const [searchString, setSearchString] = useState("");
   const activePage = navlinks.find((link) => link.id === "SEARCH");
-
   const handleChange = (e: any) => {
     setSearchString(e.target.value);
   };
@@ -14,7 +30,17 @@ function SearchPage() {
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log(searchString);
+    const headings = Object.keys(mockSearchResults[0]);
+    const data = mockSearchResults.map((results) => {
+      return Object.values(results);
+    });
+    console.log(data);
+    setSearchResults({
+      headings,
+      data,
+    });
   };
+
   return (
     <Page active={activePage?.id}>
       <div className="mb-10 py-10">
@@ -26,7 +52,9 @@ function SearchPage() {
           />
         </form>
       </div>
-      <div>Search page</div>
+      {searchResults && (
+        <Table headings={searchResults.headings} data={searchResults.data} />
+      )}
     </Page>
   );
 }

@@ -1,0 +1,68 @@
+import AirlineSearchResult from "../types/SearchResult";
+
+const mockSearchResults: AirlineSearchResult[] = [
+  {
+    id: "a6c2f4fc-686b-4468-b37b-af8d9085d57f",
+    flightNumber: "BR 36",
+    departureDate: "2020-01-01T00:00:00.000Z",
+    arrivalDate: "2020-01-01T00:00:00.000Z",
+    hasDeparted: false,
+    hasArrived: false,
+    hasDelay: false,
+    planeType: "B777-300ER",
+  },
+  {
+    id: "a254d714-261e-4516-b102-c0f21c868e2e",
+    flightNumber: "AC 110",
+    departureDate: "2020-01-01T00:00:00.000Z",
+    arrivalDate: "2020-01-01T00:00:00.000Z",
+    hasDeparted: true,
+    hasArrived: false,
+    hasDelay: false,
+    planeType: "A321-200",
+  },
+  {
+    id: "b72e7319-058e-4fa1-9696-faa481588abd",
+    flightNumber: "UAL 016",
+    departureDate: "2020-01-01T00:00:00.000Z",
+    arrivalDate: "2020-01-01T00:00:00.000Z",
+    hasDeparted: true,
+    hasArrived: true,
+    hasDelay: false,
+    planeType: "B757-200",
+  },
+  {
+    id: "7f7cd6d8-5169-47b9-98a8-3b9f31d14f90",
+    flightNumber: "AA 1234",
+    departureDate: "2020-01-01T00:00:00.000Z",
+    arrivalDate: "2020-01-01T00:00:00.000Z",
+    hasDeparted: true,
+    hasArrived: false,
+    hasDelay: true,
+    delay: 12420,
+    planeType: "A321neo",
+  },
+  {
+    id: "3f12735c-2b16-4173-ab53-528d8be83347",
+    flightNumber: "AA 1234",
+    departureDate: "2020-01-02T00:00:00.000Z",
+    arrivalDate: "2020-01-02T00:00:00.000Z",
+    hasDeparted: false,
+    hasArrived: false,
+    hasDelay: false,
+    planeType: "A321neo",
+  },
+  {
+    id: "eab612a4-c0cc-4bfd-a6a2-6d70dc552de1",
+    flightNumber: "LH 470",
+    departureDate: "2020-01-02T00:00:00.000Z",
+    arrivalDate: "2020-01-02T00:00:00.000Z",
+    hasDeparted: false,
+    hasArrived: false,
+    hasDelay: true,
+    delay: 18123,
+    planeType: "A340-600",
+  },
+];
+
+export default mockSearchResults;
