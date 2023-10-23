@@ -17,6 +17,7 @@ module.exports = {
     width: {
       full: "100%",
       content: "1024px",
+      sidebar: "400px",
     },
   },
   plugins: [],

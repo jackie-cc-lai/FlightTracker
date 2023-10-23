@@ -1,6 +1,8 @@
 interface AirlineSearchResult {
   id: string;
   flightNumber: string;
+  origin: string;
+  destination: string;
   departureDate: string;
   arrivalDate: string;
   hasDeparted: boolean;
