@@ -5,6 +5,7 @@
 /client/.pnp
 /client.pnp.js
 /.venv/
+/.vscode/
 
 # testing
 /client/coverage
