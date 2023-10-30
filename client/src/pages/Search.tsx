@@ -9,6 +9,7 @@ import mockSearchResults from "../mock/mockSearch";
 import AirlineSearchResult from "../types/SearchResult";
 import Sidebar from "../components/Sidebar";
 import api from "../helpers/api";
+import headings from "../constants/SearchTableHeader";
 
 interface Props {
   flight: AirlineSearchResult;
@@ -58,11 +59,10 @@ function SearchPage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    console.log(searchString);
-    const response1 = await api.getFlights(searchString);
-    setSearchResults(mockSearchResults.data);
-    const headings = mockSearchResults.headings;
-    const data = mockSearchResults.data.map((results) => ({
+    const searchResponse: { data: AirlineSearchResult[] } =
+      await api.getFlights(searchString);
+    setSearchResults(searchResponse.data);
+    const data = searchResponse.data.map((results) => ({
       key: results.id,
       data: [
         results.flightNumber,
