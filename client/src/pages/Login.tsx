@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Page from "../components/Page";
+import api from "../helpers/api";
 
 function LoginPage() {
   const [login, setLogin] = useState("");
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     console.log(e);
+    const response = await api.login(login);
+    console.log(response);
   };
 
   const handleChange = (e: any) => {

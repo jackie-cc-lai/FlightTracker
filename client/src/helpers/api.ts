@@ -14,7 +14,10 @@ const getFlights = async (search: string) => {
 const login = async (email: string) => {
   const url = process.env.REACT_APP_SERVER_URL;
   try {
-    const response = await axios.post(`${url}/login`);
+    const response = await axios.post(`${url}/login`, {
+      email,
+    });
+    return response.data;
   } catch (err) {
     console.error(err);
   }
@@ -22,4 +25,5 @@ const login = async (email: string) => {
 
 export default {
   getFlights,
+  login,
 };
