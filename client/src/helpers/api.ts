@@ -11,15 +11,23 @@ const getFlights = async (search: string) => {
   }
 };
 
-const login = async (email: string) => {
+const login = async ({
+  email,
+  password,
+}: {
+  email: string;
+  password: string;
+}): Promise<{ token: string | null; user: any }> => {
   const url = process.env.REACT_APP_SERVER_URL;
   try {
     const response = await axios.post(`${url}/login`, {
       email,
+      password,
     });
-    return response.data;
+    return response.data as { token: string; user: any };
   } catch (err) {
     console.error(err);
+    return { token: null, user: null };
   }
 };
 
