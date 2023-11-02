@@ -1,4 +1,4 @@
 def postViews(app):
-    @app.route('/auth', method=['POST'])
-    def auth():
+    @app.route('/save', method=['POST'])
+    def save_flight():
         return "Authorizing"
