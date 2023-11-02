@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import dayjs from "dayjs";
 
 import Page from "../components/Page";
 import navlinks from "../constants/PageConstants";
 import Table from "../components/Table";
 
-import mockSearchResults from "../mock/mockSearch";
 import AirlineSearchResult from "../types/SearchResult";
 import Sidebar from "../components/Sidebar";
 import api from "../helpers/api";
 import headings from "../constants/SearchTableHeader";
+import AuthContext from "../helpers/authContext";
 
 interface Props {
   flight: AirlineSearchResult;
@@ -18,25 +18,35 @@ interface Props {
 function SearchSidebar({ flight, onClose }: Props) {
   return (
     <Sidebar onClose={onClose}>
-      <div className="header">Flight {flight.flightNumber}</div>
-      <div className="info">
-        <div className="text-left">
+      <div className="text-lg font-bold">Flight: {flight.ident_iata}</div>
+      <div className="info py-4">
+        <div className="text-left py-2">
           <span>Origin: </span>
-          <span>{flight.origin}</span>
+          <span>{flight.origin.city}</span>
         </div>
-        <div className="text-left">
+        <div className="text-left py-2">
           <span>Destination: </span>
-          <span>{flight.destination}</span>
+          <span>{flight.destination.city}</span>
         </div>
-        <div className="text-left">
-          <span>Departure Time: </span>
+        <div className="text-left py-2">
+          <span>Codeshares: </span>
           <span>
-            {dayjs(flight.departureDate).format("DD/MM/YYYY hh:mm a")}
+            <ul>
+              {flight.codeshares_iata.map((iata) => (
+                <li>{iata}</li>
+              ))}
+            </ul>
           </span>
         </div>
-        <div className="text-left">
-          <span>Estimated Arrival Time: </span>
-          <span>{dayjs(flight.arrivalDate).format("DD/MM/YYYY hh:mm a")}</span>
+        <div className="text-left py-2">
+          <span>Scheduled Departure Time: </span>
+          <span>
+            {dayjs(flight.scheduled_off).format("DD/MM/YYYY hh:mm a")}
+          </span>
+        </div>
+        <div className="text-left py-2">
+          <span>Scheduled Arrival Time: </span>
+          <span>{dayjs(flight.scheduled_on).format("DD/MM/YYYY hh:mm a")}</span>
         </div>
       </div>
     </Sidebar>
@@ -44,6 +54,7 @@ function SearchSidebar({ flight, onClose }: Props) {
 }
 
 function SearchPage() {
+  const { token } = useContext(AuthContext);
   const [searchTable, setSearchTable] = useState<{
     headings: string[];
     data: { key: string; data: string[] }[];
@@ -59,19 +70,20 @@ function SearchPage() {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const searchResponse: { data: AirlineSearchResult[] } =
-      await api.getFlights(searchString);
-    setSearchResults(searchResponse.data);
-    const data = searchResponse.data.map((results) => ({
-      key: results.id,
+    const searchResponse: { flights: AirlineSearchResult[] } =
+      await api.getFlights(searchString, token);
+    setSearchResults(searchResponse.flights);
+    const data = searchResponse.flights.map((results) => ({
+      key: results.fa_flight_id,
       data: [
-        results.flightNumber,
-        results.origin,
-        results.destination,
-        dayjs(results.departureDate).format("DD/MM/YYYY hh:mm a"),
-        dayjs(results.arrivalDate).format("DD/MM/YYYY hh:mm a"),
-        results.hasDelay ? "Delayed" : "On Time",
-        results.planeType,
+        results.ident_iata,
+        results.operator,
+        results.origin.city,
+        results.destination.city,
+        dayjs(results.scheduled_off).format("DD/MM/YYYY hh:mm a"),
+        dayjs(results.scheduled_on).format("DD/MM/YYYY hh:mm a"),
+        results.arrival_delay > 0 ? "Delayed" : "On Time",
+        results.aircraft_type,
       ],
     }));
     setSearchTable({
@@ -81,7 +93,7 @@ function SearchPage() {
   };
 
   const selectFlight = (flightId: string) => {
-    const flight = searchResults?.find((d) => d.id === flightId);
+    const flight = searchResults?.find((d) => d.fa_flight_id === flightId);
     setSelectedFlight(flight);
     setOpenSidebar(true);
   };

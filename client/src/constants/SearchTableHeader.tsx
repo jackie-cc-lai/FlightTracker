@@ -1,5 +1,6 @@
 const headings = [
   "Flight Number",
+  "Operator",
   "Origin",
   "Destination",
   "Estimated Departure DateTime",
