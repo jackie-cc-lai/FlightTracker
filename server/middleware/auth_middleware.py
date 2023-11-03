@@ -3,7 +3,7 @@ import jwt
 import os
 from flask import request, abort
 from flask import current_app
-from server.service.auth import get_user
+from server.service.user import get_user
 
 
 def token_required(f):
@@ -39,3 +39,8 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
 
     return verify
+
+
+def generate_jwt(user):
+    jwt_secret = os.environ['JWT_SECRET_KEY']
+    return jwt.encode(user, jwt_secret, algorithm="HS256")

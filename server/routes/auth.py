@@ -1,4 +1,5 @@
-from server.service.auth import get_user, generate_jwt
+from server.service.user import get_user
+from server.middleware.auth_middleware import generate_jwt
 from flask import request, Response
 import json
 from hashlib import sha256
