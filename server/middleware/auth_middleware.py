@@ -3,7 +3,7 @@ import jwt
 import os
 from flask import request, abort
 from flask import current_app
-from server.service.auth import get_user
+from server.service.user import get_user
 
 
 def token_required(f):
@@ -12,7 +12,8 @@ def token_required(f):
         token = None
         if "Authorization" in request.headers:
             token = request.headers["Authorization"].split(" ")[1]
-        if not token:
+        if not token or token == 'null':
+            print('no token')
             return {
                 "message": "Authentication Token is missing!",
                 "data": None,
@@ -28,8 +29,6 @@ def token_required(f):
                     "data": None,
                     "error": "Unauthorized"
                 }, 401
-            if not current_user["active"]:
-                abort(403)
         except Exception as e:
             return {
                 "message": "Something went wrong",
@@ -40,3 +39,8 @@ def token_required(f):
         return f(current_user, *args, **kwargs)
 
     return verify
+
+
+def generate_jwt(user):
+    jwt_secret = os.environ['JWT_SECRET_KEY']
+    return jwt.encode(user, jwt_secret, algorithm="HS256")

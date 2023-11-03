@@ -2,8 +2,10 @@ import { useContext, useState } from "react";
 import Page from "../components/Page";
 import api from "../helpers/api";
 import AuthContext from "../helpers/authContext";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
+  const navigate = useNavigate();
   const { setUser, setToken } = useContext(AuthContext);
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ function LoginPage() {
     if (response.token) {
       setToken(token);
     }
+    navigate("/");
   };
 
   return (

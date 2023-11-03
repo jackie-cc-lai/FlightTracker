@@ -1,9 +1,16 @@
 import axios from "axios";
 
-const getFlights = async (search: string) => {
+const getFlights = async (search: string, token: string) => {
   const url = process.env.REACT_APP_SERVER_URL;
   try {
-    const response = await axios.get(`${url}/searchFlights?flightId=${search}`);
+    const response = await axios.get(
+      `${url}/searchFlights?flightId=${search}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     return response.data;
   } catch (err) {
     console.error("cannot retrieve data from server", err);

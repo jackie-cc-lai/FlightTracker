@@ -6,6 +6,7 @@ interface Props {
   onClick?: (data: any) => void;
 }
 function Table({ headings, data, onClick }: Props) {
+  console.log(data);
   return (
     <table className="w-full">
       <thead className="border-b-2">
