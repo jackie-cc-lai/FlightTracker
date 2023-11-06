@@ -24,88 +24,26 @@ def get_user_by_id(id):
     return user
 
 
-def get_user_by_email(email):
+def get_flights():
     db_connection = get_db_connection()
     db = db_connection.cursor()
-    db.execute('SELECT * FROM users WHERE users.email = %s;', (email,))
-    user_data = db.fetchone()
+    db.execute('SELECT * FROM flight_info WHERE flight_info.status IS NOT "scheduled" AND flight_info.progress_percent < 100;')
+    flights_data = db.fetchall()
     column_names = [desc[0] for desc in db.description]
-    user = create_dict(user_data, column_names)
+    flights = create_dict(flights_data, column_names)
     db.close()
     db_connection.close()
-    return user
+    return flights
 
 
-def get_flights_by_user(user_id):
+def get_users_by_flights(flights):
     db_connection = get_db_connection()
     db = db_connection.cursor()
-    db.execute('SELECT * FROM flight_info WHERE fa_flight_id = %s;', (email,))
-    user_data = db.fetchone()
+    db.execute('SELECT * FROM user_flights WHERE flight_id IN %s',
+               (flights['id']))
+    user_flights_data = db.fetchall()
     column_names = [desc[0] for desc in db.description]
-    user = create_dict(user_data, column_names)
+    user_flights = create_dict(user_flights_data, column_names)
     db.close()
     db_connection.close()
-    return user
-
-
-def get_airport_by_id(id):
-    db_connection = get_db_connection()
-    db = db_connection.cursor()
-    db.execute('SELECT * FROM airports WHERE code_iata = %s;', (id,))
-    airport_data = db.fetchone()
-    column_names = [desc[0] for desc in db.description]
-    airport = create_dict(airport_data, column_names)
-    db.close()
-    db_connection.close()
-    return airport
-
-
-def save_flight(flight):
-    db_connection = get_db_connection()
-    db = db_connection.cursor()
-    [columns, values] = split_dict(flight)
-    column_names = ', '.join(columns)
-    values_string = ', '.join(values)
-    try:
-        db.execute('INSERT INTO flight_info(%s) VALUES (%s)',
-                   (column_names, values_string, ))
-        db.close()
-        db_connection.close()
-        return
-    except Exception:
-        print(Exception)
-        raise Exception('Cannot save flight information')
-
-
-def save_airport(airport):
-    db_connection = get_db_connection()
-    db = db_connection.cursor()
-    [columns, values] = split_dict(airport)
-    column_names = ', '.join(columns)
-    values_string = ', '.join(values)
-    try:
-        db.execute('INSERT INTO airports(%s) VALUES (%s)',
-                   (column_names, values_string, ))
-        db.close()
-        db_connection.close()
-        return
-    except Exception:
-        print(Exception)
-        raise Exception('Cannot save airport information')
-
-
-def save_user_flight(flight):
-    db_connection = get_db_connection()
-    db = db_connection.cursor()
-    [columns, values] = split_dict(flight)
-    column_names = ', '.join(columns)
-    values_string = ', '.join(values)
-    try:
-        db.execute('INSERT INTO flight_info(%s) VALUES (%s)',
-                   (column_names, values_string, ))
-        db.close()
-        db_connection.close()
-        return
-    except Exception:
-        print(Exception)
-        raise Exception('Cannot save flight information')
+    return user_flights
