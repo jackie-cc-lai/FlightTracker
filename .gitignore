@@ -44,3 +44,4 @@
 /server/dist/
 /server/build/
 /server/*.egg-info/
+.python_packages
