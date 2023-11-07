@@ -35,7 +35,6 @@ def token_required(f):
                 "data": None,
                 "error": str(e)
             }, 500
-
         return f(current_user, *args, **kwargs)
 
     return verify

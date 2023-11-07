@@ -5,6 +5,7 @@ from flask import Flask
 from flask_cors import CORS
 from server.routes.get import getViews
 from server.routes.auth import authViews
+from server.routes.post import postViews
 
 
 def create_app(test_config=None):
@@ -16,6 +17,7 @@ def create_app(test_config=None):
     CORS(app, origins=os.environ['FLASK_ALLOWED_ORIGINs'])
 
     getViews(app)
+    postViews(app)
     authViews(app)
 
     return app

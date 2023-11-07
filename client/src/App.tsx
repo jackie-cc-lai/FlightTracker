@@ -26,7 +26,7 @@ function App() {
     >
       <Router>
         <Routes>
-          <Route index element={<Home />} />
+          <Route index element={<Flights />} />
           <Route element={<Flights />} path="/flights" />
           <Route element={<SearchPage />} path="/search" />
           <Route element={<LoginPage />} path="/login" />

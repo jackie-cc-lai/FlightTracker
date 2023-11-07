@@ -6,7 +6,6 @@ interface Props {
   onClick?: (data: any) => void;
 }
 function Table({ headings, data, onClick }: Props) {
-  console.log(data);
   return (
     <table className="w-full">
       <thead className="border-b-2">
@@ -21,7 +20,7 @@ function Table({ headings, data, onClick }: Props) {
           return (
             <tr
               className={classNames(
-                "py-2 hover:bg-white",
+                "py-2 hover:bg-slate-300",
                 onClick && "cursor-pointer"
               )}
               key={row.key}

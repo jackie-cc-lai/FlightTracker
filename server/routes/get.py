@@ -1,25 +1,28 @@
-from flask import request
+from flask import request, Response
 import json
 import os
 
 from server.middleware.auth_middleware import token_required
-from server.service.flight_api import search_flights
+from server.service.flight_api import search_by_ident_iata
+from server.service.flight_service import get_user_flights
 
 
 def getViews(app):
-    @app.route('/searchFlights')
+    @app.route('/search-flights')
     @token_required
-    def searchFlights(current_user):
+    def search_flights(current_user):
         flight_id = str(request.args.get('flightId'))
-        # flight_data = search_flights(flight_id)
-        fileDirectory = os.getcwd()
-        jsonPath = os.path.join(fileDirectory, 'server',
-                                'mock', 'mockSearch.json')
-        with open(jsonPath, 'r') as flightDataFile:
-            flight_data = json.load(flightDataFile)
+        print(flight_id)
+        flight_data = search_by_ident_iata(flight_id)
         return flight_data
 
-    @app.route('/getFlights')
-    def getFlights(current_user):
-        # call db to get stuff
-        return 'list of flights'
+    @app.route('/user-flights')
+    @token_required
+    def get_flights(current_user):
+        flights = get_user_flights(current_user['id'])
+        response = json.dumps([flight['flight_data']
+                               for flight in flights])
+        return Response(
+            response=response,
+            status=200
+        )

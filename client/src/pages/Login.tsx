@@ -30,11 +30,13 @@ function LoginPage() {
           <input
             name="email"
             type="string"
+            placeholder="Email"
             className="px-4 py-4 border-2 w-full rounded-md focus:outline-indigo-500"
           />
           <input
             name="password"
             type="password"
+            placeholder="Password"
             className="mt-4 px-4 py-4 border-2 w-full rounded-md focus:outline-indigo-500"
           />
           <input type="submit" hidden />
