@@ -42,9 +42,8 @@ def get_user_by_email(email):
 def get_flights_by_ids(ids):
     db_connection = get_db_connection()
     db = db_connection.cursor()
-    id_string = ', '.join(ids)
     db.execute(
-        'SELECT * FROM flights WHERE flights.fa_flight_id IN (%s)', (id_string,))
+        'SELECT * FROM flights WHERE flights.fa_flight_id = ANY(%s);', (ids,))
     results = db.fetchall()
     column_names = [desc[0] for desc in db.description]
     flights = []
