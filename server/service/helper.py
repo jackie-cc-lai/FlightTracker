@@ -10,6 +10,9 @@ def create_dict(data_values, column_names):
 
 
 def split_dict(dict):
-    key = dict.keys()
-    values = dict.values()
+    filtered_dict = {key: value for key,
+                     value in dict.items() if value is not None}
+
+    key = list(filtered_dict.keys())
+    values = list(filtered_dict.values())
     return [key, values]

@@ -14,8 +14,9 @@ import AuthContext from "../helpers/authContext";
 interface Props {
   flight: AirlineSearchResult;
   onClose: () => void;
+  saveFlight: () => void;
 }
-function SearchSidebar({ flight, onClose }: Props) {
+function SearchSidebar({ flight, onClose, saveFlight }: Props) {
   return (
     <Sidebar onClose={onClose}>
       <div className="text-lg font-bold">Flight: {flight.ident_iata}</div>
@@ -47,6 +48,11 @@ function SearchSidebar({ flight, onClose }: Props) {
         <div className="text-left py-2">
           <span>Scheduled Arrival Time: </span>
           <span>{dayjs(flight.scheduled_on).format("DD/MM/YYYY hh:mm a")}</span>
+        </div>
+        <div className="text-left py-2" onClick={saveFlight}>
+          <button className="rounded-md py-2 px-4 bg-cyan-300	">
+            Save Flight
+          </button>
         </div>
       </div>
     </Sidebar>
@@ -98,6 +104,13 @@ function SearchPage() {
     setOpenSidebar(true);
   };
 
+  const saveFlight = async () => {
+    const response = await api.saveFlight(selectedFlight, token);
+    if (response.status !== 201) {
+      console.error("cannot save flight");
+    }
+  };
+
   return (
     <Page active={activePage?.id}>
       <div className="mb-10 py-10">
@@ -121,6 +134,9 @@ function SearchPage() {
           onClose={() => {
             setOpenSidebar(false);
             setSelectedFlight(undefined);
+          }}
+          saveFlight={() => {
+            saveFlight();
           }}
           flight={selectedFlight}
         />
