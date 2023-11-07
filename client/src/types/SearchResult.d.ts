@@ -20,6 +20,9 @@ interface AirlineSearchResult {
   status: "Scheduled" | "Arrived / Gate Arrival";
   arrival_delay: number;
   aircraft_type: string;
+  route: string;
+  route_distance: number;
+  progress_percent: number;
 }
 
 export default AirlineSearchResult;

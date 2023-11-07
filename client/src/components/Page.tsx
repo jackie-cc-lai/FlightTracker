@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode, useContext, useEffect } from "react";
 import Navbar from "./Navbar";
 import AuthContext from "../helpers/authContext";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface Props {
   children: ReactNode;

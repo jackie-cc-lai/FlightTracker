@@ -9,6 +9,7 @@ import AuthContext from "../helpers/authContext";
 import Table from "../components/Table";
 
 import headings from "../constants/SearchTableHeader";
+import { useNavigate } from "react-router-dom";
 
 function Flights() {
   const { token } = useContext(AuthContext);
@@ -18,6 +19,7 @@ function Flights() {
     data: { key: string; data: string[] }[];
   }>();
   const activePage = navlinks.find((link) => link.id === "FLIGHTS");
+  const navigate = useNavigate();
   useEffect(() => {
     getFlights();
   }, []);
@@ -44,10 +46,19 @@ function Flights() {
     });
   };
 
+  const getDetails = (flightId: string) => {
+    const flight = userFlights?.find((d) => d.fa_flight_id === flightId);
+    navigate(`/details/${flightId}`);
+  };
+
   return (
     <Page active={activePage?.id}>
       {searchTable && (
-        <Table headings={searchTable.headings} data={searchTable.data} />
+        <Table
+          headings={searchTable.headings}
+          data={searchTable.data}
+          onClick={getDetails}
+        />
       )}
       <button
         className="border-2 bg-teal-200 p-4 rounded-md  "
