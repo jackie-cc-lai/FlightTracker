@@ -63,7 +63,22 @@ const saveFlight = async (flight: AirlineSearchResult, token: string) => {
 const getUserFlights = async (token: string) => {
   const url = process.env.REACT_APP_SERVER_URL;
   try {
-    const response = await axios.get(`${url}/user-flights`, {
+    const response = await axios.get(`${url}/flights`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error("cannot retrieve data from server", err);
+    return {};
+  }
+};
+
+const getFlightById = async (id: string, token: string) => {
+  const url = process.env.REACT_APP_SERVER_URL;
+  try {
+    const response = await axios.get(`${url}/flight?flightId=${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -77,7 +92,8 @@ const getUserFlights = async (token: string) => {
 
 export default {
   getFlights,
-  saveFlight,
+  getFlightById,
   getUserFlights,
+  saveFlight,
   login,
 };

@@ -18,6 +18,7 @@ function LoginPage() {
       setUser(user);
     }
     if (response.token) {
+      localStorage.setItem("token", token);
       setToken(token);
     }
     navigate("/");
