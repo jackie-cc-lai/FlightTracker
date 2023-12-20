@@ -8,9 +8,10 @@ from server.service.flight_api import search_by_ident_iata
 from server.service.flight_service import get_user_flights
 
 
-def getViews(app):
+def getViews(app, cache):
     @app.route('/search-flights')
     @token_required
+    @cache.cached(timeout=120, query_string=True)
     def search_flights(current_user):
         flight_id = str(request.args.get('flightId'))
         flight_data = search_by_ident_iata(flight_id)
@@ -18,6 +19,7 @@ def getViews(app):
 
     @app.route('/flights')
     @token_required
+    @cache.cached(timeout=60, query_string=True)
     def get_flights(current_user):
         flights = get_user_flights(current_user['id'])
         response = json.dumps([flight['flight_data']

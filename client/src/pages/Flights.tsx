@@ -10,6 +10,7 @@ import Table from "../components/Table";
 
 import headings from "../constants/SearchTableHeader";
 import { useNavigate } from "react-router-dom";
+import AirlineSearchResult from "../types/SearchResult";
 
 function Flights() {
   const { token } = useContext(AuthContext);
@@ -25,9 +26,9 @@ function Flights() {
   }, []);
 
   const getFlights = async () => {
-    const response = await api.getUserFlights(token);
+    const response: AirlineSearchResult[] = await api.getUserFlights(token);
     setUserFlights(response);
-    const data = userFlights.map((results) => ({
+    const data = response.map((results) => ({
       key: results.fa_flight_id,
       data: [
         results.ident_iata,

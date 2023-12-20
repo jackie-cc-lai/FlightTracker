@@ -16,8 +16,8 @@ def create_app(test_config=None):
     cache = Cache(app)  # Initialize Cache
     CORS(app, origins=os.environ['FLASK_ALLOWED_ORIGINs'])
 
-    getViews(app)
-    postViews(app)
+    getViews(app, cache)
+    postViews(app, cache)
     authViews(app)
 
     return app

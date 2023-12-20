@@ -3,7 +3,7 @@ import json
 import os
 
 
-def search_flights(ident_iata):
+def search_flight(ident_iata):
     api_key = os.environ["API_KEY"]
     url = os.environ['API_URL'] + '/flights/' + ident_iata
     headers = {
