@@ -95,8 +95,8 @@ def save_flight(flight):
             print('Flight information exists within db already')
             return row_id
         else:
-            db.execute(sql.SQL('INSERT INTO flights (fa_flight_id, operator, codeshares_iata, ident_iata, origin_id, destination_id, scheduled_off, flight_data) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning fa_flight_id;'),
-                       (flight['fa_flight_id'], flight['operator'], flight['codeshares_iata'], flight['ident_iata'], flight['origin_id'], flight['destination_id'], flight['scheduled_off'], json.dumps(flight)))
+            db.execute(sql.SQL('INSERT INTO flights (fa_flight_id, operator, codeshares_iata, ident_iata, origin_id, destination_id, scheduled_off, progress_percent, flight_data) VALUES (%s, %s, %s, %s, %s, %s, %s, %s) returning fa_flight_id;'),
+                       (flight['fa_flight_id'], flight['operator'], flight['codeshares_iata'], flight['ident_iata'], flight['origin_id'], flight['destination_id'], flight['scheduled_off'], flight['progress_percent'], json.dumps(flight)))
             db_connection.commit()
             flight_id = db.fetchone()[0]
             return flight_id
