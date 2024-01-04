@@ -1,6 +1,6 @@
 import logging
 import azure.functions as func
-from updater_function.service.db import get_flights, get_users_by_flights
+from updater_function.service.db import get_flights, get_users_by_flights, update_flight
 from updater_function.service.api import search_flight
 from datetime import date, timedelta
 import os
@@ -29,7 +29,7 @@ def flight_updater(myTimer: func.TimerRequest) -> None:
                 "users": to_notify_users,
             }
             requests.post(os.environ['NOTIFIER_URL'], data)
-        if date(updated_flight['actual_departure'] is not None and updated_flight['actual_departure'] > date.today()):
+        elif date(updated_flight['actual_departure'] is not None and updated_flight['actual_departure'] > date.today()):
             to_notify_users = get_users_by_flights(
                 updated_flight['fa_flight_id'])
             data = {
@@ -38,3 +38,4 @@ def flight_updater(myTimer: func.TimerRequest) -> None:
                 "users": to_notify_users,
             }
             requests.post(os.environ['NOTIFIER_URL'], data)
+        update_flight(updated_flight)

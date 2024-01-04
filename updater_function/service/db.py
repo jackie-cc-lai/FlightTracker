@@ -1,3 +1,4 @@
+import json
 import os
 import psycopg2
 
@@ -27,7 +28,21 @@ def get_user_by_id(id):
 def get_flights():
     db_connection = get_db_connection()
     db = db_connection.cursor()
-    db.execute('SELECT * FROM flight_info WHERE flight_info.status IS NOT "scheduled" AND flight_info.progress_percent < 100;')
+    db.execute(
+        'SELECT * FROM flights WHERE flights.progress_percent < 100;')
+    flights_data = db.fetchall()
+    column_names = [desc[0] for desc in db.description]
+    flights = create_dict(flights_data, column_names)
+    db.close()
+    db_connection.close()
+    return flights
+
+
+def update_flight(flight):
+    db_connection = get_db_connection()
+    db = db_connection.cursor()
+    db.execute(
+        'UPDATE flights SET progress_percent = %s, flight_data= %s  WHERE flight.fa_flight_id = %s', (flight['progress_percent'], json.dumps(flight['fa_flight_id']), flight['fa_flight_id']))
     flights_data = db.fetchall()
     column_names = [desc[0] for desc in db.description]
     flights = create_dict(flights_data, column_names)
